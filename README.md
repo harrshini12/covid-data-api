@@ -114,7 +114,7 @@ The Covid-19 Data API provides several routes to retrieve different types of inf
   "todayDeaths": 0
 }
 
-### 
+### Health
 * Endpoint: '/health'
 * Method: GET
 * Description: Performs a health check on the API.
@@ -138,3 +138,18 @@ The examples provided are for illustrative purposes, and the actual values may v
 * To run the tests, execute the following command:
     * npm test
 
+### Backend API is hosted on AWS Lambda
+* All Countries Info
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/allcountriesinfo
+* Specific Country Info
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/specificcountryinfo/germany
+* Cases
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/cases
+* Today's Cases
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaycases
+* Deaths
+   https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaycases
+* Today's Deaths
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaydeaths
+* Health
+  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/health
