@@ -1,0 +1,24 @@
+{
+  "name": "covid-data-api",
+  "version": "1.0.0",
+  "description": "\"A comprehensive API providing real-time Covid-19 statistics, including global and country-specific data, with support for daily updates and historical analysis.\"",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env CORS_ORIGIN=http://localhost:3001 node server.js",
+    "test": "jest",
+    "prettier": "prettier --write \"**/*.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.8",
+    "supertest": "^6.3.3"
+  }
+}
