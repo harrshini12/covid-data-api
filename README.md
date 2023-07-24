@@ -1,5 +1,5 @@
 # Covid-19 Data API:
-This is a Node.js-based API that provides summary information about Covid-19 cases and allows querying by countries. It utilizes the disease.sh public API to fetch the latest Covid-19 case data.
+This is a Node.js-based API that provides summary information about Covid-19 cases and allows querying by countries. It utilizes the [disease.sh](https://disease.sh/) public API to fetch the latest Covid-19 case data.
 
 ### Prerequisites:
 - Node.js and npm should be installed on your machine.
