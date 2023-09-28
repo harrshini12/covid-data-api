@@ -1,5 +1,5 @@
 # Covid-19 Data API:
-This is a Node.js-based API that provides summary information about Covid-19 cases and allows querying by countries. It utilizes the [disease.sh](https://disease.sh/) public API to fetch the latest Covid-19 case data.
+This is a Node.js-based API that provides summary information about Covid-19 cases and allows querying by countries. It utilizes the [European Centre for Disease Prevention and Control](https://opendata.ecdc.europa.eu/covid19/casedistribution/json/) public API to fetch the latest Covid-19 case data.
 
 ### Prerequisites:
 - Node.js and npm should be installed on your machine.
@@ -23,26 +23,25 @@ The Covid-19 Data API provides several routes to retrieve different types of inf
 * Endpoint: '/allcountriesinfo'
 * Method: GET
 * Description: Retrieves information about all countries' Covid-19 cases.
-* Response Body: Returns an array of objects, where each object represents a country and includes details such as country name,cases, deaths, todaycases, todaydeaths, and more.
+* Response Body: Returns an array of objects, where each object represents a country and includes details such as continent, country name,cases, deaths, population and date.
 * Example Request:
     GET /allcountriesinfo
 * Example Response:
 [
   {
-    "country": "Germany",
-    "cases": 38428685,
-    "deaths": 174352,
-    "todaycases": 0,
-    "todaydeaths": 0,
-    ...
+    "continent":"Asia",
+    "countryName":"Afghanistan",
+    "cases":746,
+    "deaths":6,
+    "population":38041757,
+    "date":"14/12/2020"
   },
   {
-    "country": "UK",
-    "cases": 24618436,
-    "deaths": 226278,
-    "todaycases": 0,
-    "todaydeaths": 0,
-    ...
+    "continent":"Africa",
+    "countryName":"Egypt",
+    "cases":370,"deaths":14,
+    "population":100388076,
+    "date":"01/12/2020"
   },
   ...
 ]
@@ -52,67 +51,49 @@ The Covid-19 Data API provides several routes to retrieve different types of inf
 * Method: GET
 * Description: Retrieves information about a specific country's Covid-19 cases.
 * Parameters: 
-    :country - The name of the country (e.g., usa, uk, germany).
-* Response Body: Returns an object containing details about the specific country, including cases, deaths, todaycases, todaydeaths, and more.
+    :country - The name of the country (e.g., India, Germany).
+* Response Body: Returns an object containing details about the specific country, including totalDeaths, totalCases and totalPopulation.
 * Example Request:
-    GET /allcountriesinfo/germany
+    GET /allcountriesinfo/India
 * Example Response:
 {
-  "country": "Germany",
-    "cases": 38428685,
-    "deaths": 174352,
-    "todaycases": 0,
-    "todaydeaths": 0,
-    ...
+  "countryName":"India",
+  "totalDeaths":143355,
+  "totalCases":9884100,
+  "totalPopulation":476879796844
 }
 
 ### Cases
 * Endpoint: '/cases'
 * Method: GET
-* Description: Retrieves the total number of Covid-19 cases worldwide.
+* Description: Retrieves the total number of Covid-19 cases for all country.
 * Response Body: Returns an object with the 'cases' property, which represents the total number of cases.
 * Example Request:
     GET /cases
 * Example Response:
+[
 {
-    "cases":690956917
+  "country":"Afghanistan",
+  "cases":49273
 }
-
-### Today's Cases
-* Endpoint: '/todaycases'
-* Method: GET
-* Description: Retrieves the number of new Covid-19 cases reported today worldwide.
-* Response Body: Returns an object with the 'todayCases' property, which represents the number of cases reported today.
-* Example Request:
-    GET /todaycases
-* Example Response:
-{
-    "todayCases":3
-}
+ ...
+]
 
 ### Deaths
 * Endpoint: '/deaths'
 * Method: GET
-* Description: Retrieves the total number of Covid-19 deaths worldwide.
+* Description: Retrieves the total number of Covid-19 deaths for all country.
 * Response Body:  Returns an object with the 'deaths' property, which represents the total number of deaths.
 * Example Request:
     GET /deaths
 * Example Response:
+[
 {
-    "deaths":6895913
+    "country":"Afghanistan",
+    "deaths":1971
 }
-
-### Today's Deaths
-* Endpoint: '/todaydeaths'
-* Method: GET
-* Description: Retrieves the number of new Covid-19 deaths reported today worldwide.
-* Response Body: Returns an object with the 'todayDeaths' property, which represents the number of deaths reported today.
-* Example Request:
-    GET /todaydeaths
-* Example Response:
-{
-  "todayDeaths": 0
-}
+ ...
+]
 
 ### Health
 * Endpoint: '/health'
@@ -126,9 +107,9 @@ The Covid-19 Data API provides several routes to retrieve different types of inf
     GET /health
 * Example Response:
 {
-  "message": "OK",
-  "uptime": 2152.502061791,
-  "timestamp": 1688297069982
+  "message":"Health check passed",
+  "uptime":973.840297261,
+  "timestamp":1695894269035
 }
 
 ### Note:
@@ -137,19 +118,3 @@ The examples provided are for illustrative purposes, and the actual values may v
 ### Testing
 * To run the tests, execute the following command:
     * npm test
-
-### Backend API is hosted on AWS Lambda
-* All Countries Info
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/allcountriesinfo
-* Specific Country Info
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/specificcountryinfo/germany
-* Cases
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/cases
-* Today's Cases
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaycases
-* Deaths
-   https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaycases
-* Today's Deaths
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/todaydeaths
-* Health
-  https://xsepkabzfc.execute-api.eu-central-1.amazonaws.com/covid19data/health

@@ -1,16 +1,48 @@
-const express = require('express');
-const axios = require('axios');
+const express = require("express");
+const axios = require("axios");
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+// Handle GET request to "/cases" endpoint
+router.get("/", async (req, res) => {
   try {
-    const response = await axios.get('https://disease.sh/v3/covid-19/all');
-    const cases = response.data.cases;
-    res.json({ cases });
+    const response = await axios.get(
+      "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/"
+    );
+
+    if (response.status === 200) {
+      const data = response.data.records;
+
+      // Create an array to store objects with country name and cases
+      const countryData = [];
+
+      // Calculate the sum of cases for each country
+      data.forEach((record) => {
+        const countryName = record.countriesAndTerritories;
+        const cases = record.cases;
+
+        // Check if the country is already in the array
+        const existingCountry = countryData.find(
+          (item) => item.country === countryName
+        );
+
+        if (existingCountry) {
+          // If the country exists, add the cases to the existing total
+          existingCountry.cases += cases;
+        } else {
+          // If the country is not in the array, add it with cases
+          countryData.push({ country: countryName, cases });
+        }
+      });
+
+      res.json(countryData);
+    } else {
+      console.error("Failed to fetch data from the URL");
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

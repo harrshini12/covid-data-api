@@ -1,21 +1,34 @@
-const express = require('express');
-const axios = require('axios');
+const express = require("express");
+const axios = require("axios");
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+// Handle GET request to "/health" endpoint
+router.get("/", async (req, res) => {
   try {
-    await axios.get('https://disease.sh/v3/covid-19/all');
+    const response = await axios.get(
+      "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/"
+    );
 
-    res.status(200).json({
-      message: 'OK',
-      uptime: process.uptime(),
-      timestamp: Date.now(),
-    });
+    // Check if the response status code is 200 (OK)
+    if (response.status === 200) {
+      res.status(200).json({
+        message: "Health check passed",
+        uptime: process.uptime(),
+        timestamp: Date.now(), 
+      });
+    } else {
+      res.status(500).json({
+        error: "Health check failed",
+        message: "Unexpected status code from ECDC API",
+      });
+    }
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'Health check failed', message: error.message });
+    // Handle any errors that occur during the health check
+    res.status(500).json({
+      error: "Health check failed",
+      message: error.message, 
+    });
   }
 });
 
